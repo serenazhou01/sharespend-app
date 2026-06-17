@@ -852,7 +852,6 @@ function init() {
   // 直接检查URL里有没有openid，有就走云端
   let params = new URLSearchParams(window.location.search);
   let openid = params.get('openid') || sessionStorage.getItem('aa_openid');
-  toast('init: openid=' + (openid ? openid.slice(0,8)+'…' : '无'), 6000);
   if (openid) {
     loadFromCloud();
   } else {
