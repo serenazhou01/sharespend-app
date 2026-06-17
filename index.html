@@ -2797,16 +2797,34 @@ function renderThemePicker() {
 function inviteFriend() {
   let ev = cur();
   if (!ev || !ev._cloudId) { toast('请先保存行程到云端'); return; }
-  // 通知小程序发起分享，带上行程ID
+  // 通知小程序发起分享
+  function doInvite() {
+    if (typeof wx !== 'undefined' && wx.miniProgram) {
+      wx.miniProgram.postMessage({ data: { type: 'invite', tripId: ev._cloudId, tripName: ev.name } });
+      toast('请点击右上角 ··· 菜单 → 转发给好友');
+    } else {
+      toast('请在小程序中使用邀请功能');
+    }
+  }
+  // 如果wx已存在直接调用，否则先加载JSSDK
   if (typeof wx !== 'undefined' && wx.miniProgram) {
-    wx.miniProgram.postMessage({ data: { type: 'invite', tripId: ev._cloudId, tripName: ev.name } });
-    toast('请点击右上角菜单 → 转发给好友');
+    doInvite();
   } else {
-    toast('请在小程序中使用邀请功能');
+    var s = document.createElement('script');
+    s.src = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
+    s.onload = doInvite;
+    s.onerror = function() { toast('请点击右上角 ··· 菜单 → 转发给好友'); };
+    document.head.appendChild(s);
   }
 }
 
 init();
+// 提前加载微信JSSDK
+(function(){
+  var s = document.createElement('script');
+  s.src = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
+  document.head.appendChild(s);
+})();
 /* load saved theme */
 (function(){ applyTheme(localStorage.getItem('aa_theme')||'healing'); })();
 
