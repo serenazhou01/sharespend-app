@@ -587,13 +587,22 @@ const CLOUD_API = 'https://cloud1-d7gnf4smob484df5d-1444151314.ap-shanghai.app.t
 
 async function callCloud(action, data) {
   let openid = sessionStorage.getItem('aa_openid') || '';
-  const res = await fetch(CLOUD_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, data, openid })
-  });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  return await res.json();
+  toast('请求: ' + action + ' openid=' + (openid ? '有' : '无'), 6000);
+  try {
+    const res = await fetch(CLOUD_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, data, openid })
+    });
+    toast('响应状态: ' + res.status, 6000);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    toast('结果: ' + JSON.stringify(json).slice(0, 50), 6000);
+    return json;
+  } catch(e) {
+    toast('❌ fetch失败: ' + e.message, 8000);
+    throw e;
+  }
 }
 
 /* ── 从URL参数读取用户信息（小程序通过URL传入） ── */
