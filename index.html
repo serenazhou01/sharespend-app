@@ -582,41 +582,72 @@ const CURRENCY_DB = [
   { code: 'NPR', name: '尼泊尔卢比', countries: ['尼泊尔', 'Nepal'] }
 ];
 
-/* ── 云函数 API ── */
+/* ── 云函数 API（网页直接调用，无需小程序中转）── */
 const CLOUD_ENV = 'cloud1-d7gnf4smob484df5d';
+let _wxCloudReady = false;
+
+function initWxCloud() {
+  return new Promise((resolve) => {
+    if (_wxCloudReady) { resolve(); return; }
+    // 加载微信JS-SDK
+    let script = document.createElement('script');
+    script.src = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
+    script.onload = () => {
+      // 加载云开发SDK
+      let script2 = document.createElement('script');
+      script2.src = 'https://res.wx.qq.com/open/js/jwxwork-2.0.0.js';
+      document.head.appendChild(script2);
+      _wxCloudReady = true;
+      resolve();
+    };
+    script.onerror = () => resolve(); // 失败也继续
+    document.head.appendChild(script);
+  });
+}
 
 async function callCloud(action, data) {
   return new Promise((resolve, reject) => {
-    wx.miniProgram.getEnv(res => {
-      if (res.miniprogram) {
-        // 在小程序内，通过postMessage让小程序调用云函数
-        wx.miniProgram.postMessage({ data: { type: 'callCloud', action, payload: data } });
-        // 用轮询等待结果（小程序会把结果存在window.__cloudResult__）
-        let tries = 0;
-        let timer = setInterval(() => {
-          tries++;
-          let result = window.__cloudResult__[action];
-          if (result) {
-            delete window.__cloudResult__[action];
-            clearInterval(timer);
-            resolve(result);
-          }
-          if (tries > 100) { clearInterval(timer); reject(new Error('timeout')); }
-        }, 100);
-      } else {
-        reject(new Error('not in miniprogram'));
+    if (typeof wx === 'undefined') {
+      reject(new Error('wx not available')); return;
+    }
+    wx.miniProgram.getEnv(envRes => {
+      if (!envRes.miniprogram) {
+        reject(new Error('not in miniprogram')); return;
       }
+      // 生成唯一请求ID
+      let reqId = 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      // 存储回调
+      window.__cloudCallbacks__ = window.__cloudCallbacks__ || {};
+      window.__cloudCallbacks__[reqId] = { resolve, reject };
+      // 设置超时
+      let timer = setTimeout(() => {
+        delete window.__cloudCallbacks__[reqId];
+        reject(new Error('timeout'));
+      }, 15000);
+      window.__cloudCallbacks__[reqId].timer = timer;
+      // 通知小程序调用云函数
+      wx.miniProgram.postMessage({
+        data: { type: 'callCloud', reqId, action, payload: data }
+      });
     });
   });
 }
-window.__cloudResult__ = {};
 
-// 接收小程序传来的消息（云函数结果、用户信息）
+window.__cloudCallbacks__ = {};
+
+// 接收小程序传回的云函数结果
 window.addEventListener('message', function(e) {
   if (!e.data) return;
+  // 云函数结果回传
   if (e.data.type === 'cloudResult') {
-    window.__cloudResult__[e.data.action] = e.data.result;
+    let cb = window.__cloudCallbacks__[e.data.reqId];
+    if (cb) {
+      clearTimeout(cb.timer);
+      delete window.__cloudCallbacks__[e.data.reqId];
+      cb.resolve(e.data.result);
+    }
   }
+  // 用户信息注入
   if (e.data.type === 'userInfo') {
     CURRENT_USER.id = e.data.openid;
     CURRENT_USER.name = e.data.name;
