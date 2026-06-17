@@ -846,18 +846,27 @@ function init() {
       document.querySelectorAll('.cur-search-drop.show').forEach(d => d.classList.remove('show'));
     }
   });
-  // 判断是否在小程序里
-  if (typeof wx !== 'undefined' && wx.miniProgram) {
-    wx.miniProgram.getEnv(res => {
-      if (res.miniprogram) {
-        loadFromCloud();
-      } else {
-        initLocal();
-      }
-    });
-  } else {
+  // 加载微信JSSDK后再判断环境
+  var script = document.createElement('script');
+  script.src = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
+  script.onload = function() {
+    if (typeof wx !== 'undefined' && wx.miniProgram) {
+      wx.miniProgram.getEnv(function(res) {
+        if (res.miniprogram) {
+          toast('已连接小程序，加载云端数据…');
+          loadFromCloud();
+        } else {
+          initLocal();
+        }
+      });
+    } else {
+      initLocal();
+    }
+  };
+  script.onerror = function() {
     initLocal();
-  }
+  };
+  document.head.appendChild(script);
 }
 
 function migrateExpenses(arr) {
