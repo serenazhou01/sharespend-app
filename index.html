@@ -971,17 +971,19 @@ function promptNewEvent() {
     document.getElementById('fab').style.display = '';
     render();
     // 保存到云端
+    toast('正在保存到云端…', 6000);
     callCloud('createTrip', {
       name: ev.name,
       ownerName: CURRENT_USER.name,
       ownerAvatar: CURRENT_USER.avatar || ''
     }).then(res => {
+      toast('createTrip结果: ' + JSON.stringify(res).slice(0,60), 8000);
       if (res && res.code === 0) {
         ev._cloudId = res.data._id;
         _currentTripId = ev._cloudId;
-        toast('行程已保存到云端 ✅');
+        toast('行程已保存到云端 ✅ id=' + ev._cloudId.slice(0,8), 6000);
       }
-    }).catch(e => toast('云端保存失败: ' + e.message));
+    }).catch(e => toast('❌ createTrip失败: ' + e.message, 8000));
     showManage();
   });
 }
@@ -1007,17 +1009,19 @@ function createNewTrip() {
     document.getElementById('fab').style.display = '';
     render();
     // 保存到云端
+    toast('正在保存到云端…', 6000);
     callCloud('createTrip', {
       name: ev.name,
       ownerName: CURRENT_USER.name,
       ownerAvatar: CURRENT_USER.avatar || ''
     }).then(res => {
+      toast('createTrip结果: ' + JSON.stringify(res).slice(0,60), 8000);
       if (res && res.code === 0) {
         ev._cloudId = res.data._id;
         _currentTripId = ev._cloudId;
-        toast('行程已保存到云端 ✅');
+        toast('行程已保存到云端 ✅ id=' + ev._cloudId.slice(0,8), 6000);
       }
-    }).catch(e => toast('云端保存失败: ' + e.message));
+    }).catch(e => toast('❌ createTrip失败: ' + e.message, 8000));
     showManage();
   });
 }
