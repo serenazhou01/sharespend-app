@@ -671,7 +671,16 @@ async function deleteBillCloud(billId) {
 async function loadFromCloud() {
   try {
     toast('加载中…');
-    let res = await callCloud('getTrips', {});
+    let openid = sessionStorage.getItem('aa_openid') || '';
+    if (!openid) { toast('❌ 无openid，请重新登录'); initLocal(); return; }
+    let res;
+    try {
+      res = await callCloud('getTrips', {});
+    } catch(fetchErr) {
+      toast('❌ 网络错误: ' + fetchErr.message);
+      initLocal(); return;
+    }
+    if (!res || res.code !== 0) { toast('❌ 云端错误: ' + (res && res.msg || '未知')); initLocal(); return; }
     if (res && res.code === 0 && res.data.length > 0) {
       // 把云端行程映射到本地数据结构
       S.events = res.data.map(t => ({
