@@ -959,17 +959,29 @@ function promptNewEvent() {
     if (S.events.some(e => e.name === name)) { showDlgErr('该行程名称已存在，请重新命名'); return false; }
     let ev = {
       id: uid(), name: name, people: [], baseCur: 'RMB', currencies: [], exchangeRates: {}, expenses: [],
-      /* ── 权限字段占位 ── */
       ownerId: CURRENT_USER.id,
       members: [{ userId: CURRENT_USER.id, name: CURRENT_USER.name, role: 'owner', joinedAt: new Date().toISOString() }]
     };
     S.events.push(ev);
     S.currentEventId = ev.id;
+    _currentTripId = null;
     S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set();
     persistLocal(); closeSidebar();
     document.querySelectorAll('.tab').forEach(el => el.classList.toggle('on', el.dataset.tab === 'exp'));
     document.getElementById('fab').style.display = '';
     render();
+    // 保存到云端
+    callCloud('createTrip', {
+      name: ev.name,
+      ownerName: CURRENT_USER.name,
+      ownerAvatar: CURRENT_USER.avatar || ''
+    }).then(res => {
+      if (res && res.code === 0) {
+        ev._cloudId = res.data._id;
+        _currentTripId = ev._cloudId;
+        toast('行程已保存到云端 ✅');
+      }
+    }).catch(e => toast('云端保存失败: ' + e.message));
     showManage();
   });
 }
@@ -989,10 +1001,23 @@ function createNewTrip() {
       S.events.push(ev);
     }
     S.currentEventId = ev.id;
+    _currentTripId = null;
     S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set();
     persistLocal();
     document.getElementById('fab').style.display = '';
     render();
+    // 保存到云端
+    callCloud('createTrip', {
+      name: ev.name,
+      ownerName: CURRENT_USER.name,
+      ownerAvatar: CURRENT_USER.avatar || ''
+    }).then(res => {
+      if (res && res.code === 0) {
+        ev._cloudId = res.data._id;
+        _currentTripId = ev._cloudId;
+        toast('行程已保存到云端 ✅');
+      }
+    }).catch(e => toast('云端保存失败: ' + e.message));
     showManage();
   });
 }
