@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>ShareSpend</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -68,7 +68,7 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
 .ei-arrow-br{font-size:10px;color:var(--text3);cursor:pointer;transition:transform .2s;align-self:end;margin-left:8px;padding:4px 0}
 .ei-arrow-br.open{transform:rotate(90deg)}
 .ei-r .ei-arrow{font-size:10px;color:var(--text3);cursor:pointer;transition:transform .2s;margin-top:auto}
-.ei-amt{font-weight:900;font-size:18px;color:#2E3138;font-family:'Noto Serif SC',Georgia,serif}
+.ei-amt{font-weight:900;font-size:20px;color:#2E3138;font-family:'Noto Serif SC',Georgia,serif}
 .ei-acts{display:flex;gap:4px;margin-top:4px}
 .ei-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:2px 4px;color:#ccc}
 .ei-btn:active{color:var(--text2)}
@@ -173,8 +173,8 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
 .sb-ov.show{opacity:1;pointer-events:auto}
 .sb{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;background:#fff;z-index:200;transform:translateX(-100%);transition:transform .3s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.1)}
 .sb.show{transform:translateX(0)}
-.sb-hdr{padding:calc(env(safe-area-inset-top,12px) + 12px) 16px 12px;background:#fff;border-bottom:1px solid rgba(0,0,0,.04);color:#111;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.sb-hdr h2{font-size:16px;font-weight:700;font-family:'Noto Serif SC',Georgia,serif}
+.sb-hdr{padding:calc(env(safe-area-inset-top,12px) + 12px) 16px 12px;background:linear-gradient(135deg,var(--t-grad1) 0%,var(--t-grad2) 100%);border-bottom:1px solid rgba(0,0,0,.05);color:#111;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;transition:background .4s}
+.sb-hdr h2{font-size:16px;font-weight:700;font-family:'Noto Serif SC',Georgia,serif;color:var(--t-dark)}
 .sb-list{flex:1;overflow-y:auto;padding:8px 0}
 .sb-item{display:flex;align-items:center;padding:14px 16px;cursor:pointer;transition:.15s;border-left:3px solid transparent}
 .sb-item:active{background:#F0EDE6}
@@ -322,7 +322,7 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
     <div style="display:flex;align-items:center;gap:8px">
       <button class="hdr-btn" onclick="openSidebar()" title="行程">&#9776;</button>
       <div>
-        <h1 style="font-family:'Noto Serif SC',Georgia,serif;font-size:19px;font-weight:700;color:#111;letter-spacing:0.2px;">ShareSpend</h1>
+        <h1>ShareSpend</h1>
         <div id="evName" style="font-size:11px;opacity:.7;margin-top:1px"></div>
       </div>
     </div>
@@ -342,7 +342,7 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
 <div class="sb" id="sb">
   <div class="sb-hdr">
     <h2>我的行程</h2>
-    <button type="button" class="hdr-btn" onclick="closeSidebar()" style="background:rgba(255,255,255,.18)">&#10005;</button>
+    <button type="button" class="hdr-btn" onclick="closeSidebar()" style="background:rgba(255,255,255,.6)">&#10005;</button>
   </div>
   <div class="sb-list" id="sbList"></div>
   <div style="padding:12px 14px 4px">
@@ -423,7 +423,7 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
   <div class="m-title">设置</div>
   <div class="fg">
     <label class="fl">行程名称</label>
-    <input class="fi" id="evNameInput" placeholder="行程名称">
+    <input class="fi" id="evNameInput" placeholder="如：毕业旅行；公园野餐···">
     <div class="fg-err" id="evNameErr" style="display:none"></div>
   </div>
   <div class="fg">
@@ -456,14 +456,13 @@ body{font-family:'Noto Sans SC','Source Han Sans',-apple-system,BlinkMacSystemFo
       <label class="fl" style="margin-bottom:0">邀请微信用户</label>
       <button class="help-btn" onclick="showInviteHelp()">?</button>
     </div>
-    <div style="background:var(--t-accent);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;opacity:.65;cursor:not-allowed">
+    <div style="background:var(--t-accent);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="inviteFriend()">
       <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🔗</div>
       <div>
         <div style="font-size:13px;font-weight:600;color:var(--text)">邀请微信好友加入</div>
         <div style="font-size:11px;color:var(--text2);margin-top:2px">好友加入后可共同记账</div>
       </div>
     </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:6px">🚧 此功能将在小程序版本上线</div>
   </div>
   <div class="m-acts">
     <button class="btn btn-s" onclick="saveSettings()">保存</button>
@@ -583,12 +582,197 @@ const CURRENCY_DB = [
   { code: 'NPR', name: '尼泊尔卢比', countries: ['尼泊尔', 'Nepal'] }
 ];
 
-/* ── 身份占位：小程序上线后替换为真实微信用户 ── */
+/* ── 云函数 API ── */
+const CLOUD_ENV = 'cloud1-d7gnf4smob484df5d';
+
+async function callCloud(action, data) {
+  return new Promise((resolve, reject) => {
+    wx.miniProgram.getEnv(res => {
+      if (res.miniprogram) {
+        // 在小程序内，通过postMessage让小程序调用云函数
+        wx.miniProgram.postMessage({ data: { type: 'callCloud', action, payload: data } });
+        // 用轮询等待结果（小程序会把结果存在window.__cloudResult__）
+        let tries = 0;
+        let timer = setInterval(() => {
+          tries++;
+          let result = window.__cloudResult__[action];
+          if (result) {
+            delete window.__cloudResult__[action];
+            clearInterval(timer);
+            resolve(result);
+          }
+          if (tries > 100) { clearInterval(timer); reject(new Error('timeout')); }
+        }, 100);
+      } else {
+        reject(new Error('not in miniprogram'));
+      }
+    });
+  });
+}
+window.__cloudResult__ = {};
+
+// 接收小程序传来的消息（云函数结果、用户信息）
+window.addEventListener('message', function(e) {
+  if (!e.data) return;
+  if (e.data.type === 'cloudResult') {
+    window.__cloudResult__[e.data.action] = e.data.result;
+  }
+  if (e.data.type === 'userInfo') {
+    CURRENT_USER.id = e.data.openid;
+    CURRENT_USER.name = e.data.name;
+    CURRENT_USER.avatar = e.data.avatar;
+  }
+});
+
+/* ── 从URL参数读取用户信息（小程序通过URL传入） ── */
+(function() {
+  try {
+    let params = new URLSearchParams(window.location.search);
+    let openid = params.get('openid');
+    let name = decodeURIComponent(params.get('name') || '');
+    let avatar = decodeURIComponent(params.get('avatar') || '');
+    let tripId = params.get('tripId'); // 邀请加入的行程ID
+    if (openid) {
+      sessionStorage.setItem('aa_openid', openid);
+      sessionStorage.setItem('aa_name', name || '用户');
+      sessionStorage.setItem('aa_avatar', avatar);
+    }
+    if (tripId) {
+      sessionStorage.setItem('aa_joinTripId', tripId);
+    }
+  } catch(e) {}
+})();
+
 const CURRENT_USER = {
-  id: localStorage.getItem('aa_userId') || (function(){ let id='local_'+Date.now().toString(36); localStorage.setItem('aa_userId',id); return id; })(),
-  name: localStorage.getItem('aa_userName') || '我',
-  role: 'owner'   /* 'owner' | 'member' — 后端下发后覆盖 */
+  id: sessionStorage.getItem('aa_openid') || 'local_' + Date.now().toString(36),
+  name: sessionStorage.getItem('aa_name') || '我',
+  avatar: sessionStorage.getItem('aa_avatar') || '',
+  role: 'owner'
 };
+
+/* ── 云端数据持久化 ── */
+let _saveTimer = null;
+let _currentTripId = null; // 当前行程的云端 _id
+
+async function persistCloud() {
+  // 节流：500ms内只保存一次
+  if (_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    let ev = cur();
+    if (!ev || !_currentTripId) return;
+    try {
+      await callCloud('updateTrip', {
+        tripId: _currentTripId,
+        name: ev.name,
+        people: ev.people,
+        baseCur: ev.baseCur,
+        currencies: ev.currencies,
+        exchangeRates: ev.exchangeRates
+      });
+    } catch(e) { console.warn('云端保存失败', e); }
+  }, 500);
+}
+
+async function saveBillCloud(bill, isEdit) {
+  let ev = cur();
+  if (!_currentTripId) return;
+  if (isEdit) {
+    await callCloud('updateBill', {
+      billId: bill._cloudId || bill.id,
+      bill: bill,
+      createdByName: CURRENT_USER.name
+    });
+  } else {
+    let res = await callCloud('addBill', {
+      tripId: _currentTripId,
+      bill: bill,
+      createdByName: CURRENT_USER.name
+    });
+    if (res && res.code === 0) bill._cloudId = res.data._id;
+  }
+}
+
+async function deleteBillCloud(billId) {
+  await callCloud('deleteBill', { billId });
+}
+
+async function loadFromCloud() {
+  try {
+    toast('加载中…');
+    let res = await callCloud('getTrips', {});
+    if (res && res.code === 0 && res.data.length > 0) {
+      // 把云端行程映射到本地数据结构
+      S.events = res.data.map(t => ({
+        id: t._id,
+        _cloudId: t._id,
+        name: t.name,
+        ownerId: t.ownerId,
+        people: t.people || [],
+        baseCur: t.baseCur || 'RMB',
+        currencies: t.currencies || [],
+        exchangeRates: t.exchangeRates || {},
+        expenses: [],
+        members: t.members || []
+      }));
+      S.currentEventId = S.events[0].id;
+      _currentTripId = S.events[0]._cloudId;
+      // 加载当前行程的账单
+      await loadBillsForTrip(_currentTripId);
+    } else {
+      // 没有行程，保持空状态
+      S.events = [{ id: uid(), name: '', people: [], baseCur: 'RMB', currencies: [], exchangeRates: {}, expenses: [],
+        ownerId: CURRENT_USER.id,
+        members: [{ userId: CURRENT_USER.id, name: CURRENT_USER.name, role: 'owner', joinedAt: new Date().toISOString() }]
+      }];
+      S.currentEventId = S.events[0].id;
+    }
+    // 检查是否有待加入的行程
+    let joinTripId = sessionStorage.getItem('aa_joinTripId');
+    if (joinTripId) {
+      sessionStorage.removeItem('aa_joinTripId');
+      await handleJoinTrip(joinTripId);
+    }
+    render();
+  } catch(e) {
+    console.warn('云端加载失败，使用本地模式', e);
+    initLocal();
+  }
+}
+
+async function loadBillsForTrip(tripId) {
+  try {
+    let res = await callCloud('getBills', { tripId });
+    if (res && res.code === 0) {
+      let ev = S.events.find(e => e._cloudId === tripId);
+      if (ev) {
+        ev.expenses = res.data.map(b => ({ ...b, id: b._id, _cloudId: b._id }));
+        ev.expenses = migrateExpenses(ev.expenses);
+      }
+    }
+  } catch(e) { console.warn('账单加载失败', e); }
+}
+
+async function handleJoinTrip(tripId) {
+  try {
+    let res = await callCloud('joinTrip', {
+      tripId,
+      name: CURRENT_USER.name,
+      avatar: CURRENT_USER.avatar
+    });
+    if (res && res.code === 0) {
+      toast('已加入行程！');
+      await loadFromCloud();
+    }
+  } catch(e) { toast('加入行程失败'); }
+}
+
+function persist() {
+  // 同时保存到 sessionStorage 作为缓存（防止刷新丢失）
+  try {
+    sessionStorage.setItem('aa_data', JSON.stringify({ events: S.events, currentEventId: S.currentEventId }));
+  } catch(e) {}
+  persistCloud();
+}
 
 let S = {
   events: [],
@@ -643,8 +827,8 @@ function fmtBase(n) {
   return bc + ' ' + Number(n).toFixed(2);
 }
 
-function init() {
-  let saved = localStorage.getItem('aa_data');
+function initLocal() {
+  let saved = sessionStorage.getItem('aa_data');
   if (saved) {
     try {
       let d = JSON.parse(saved);
@@ -653,28 +837,11 @@ function init() {
           ev.expenses = migrateExpenses(ev.expenses || []);
           if (!ev.exchangeRates) ev.exchangeRates = {};
           if (!ev.people || ev.people.length === 0) ev.people = ['A', 'B', 'C'];
-          if (!ev.baseCur) {
-            ev.baseCur = 'RMB';
-            if (ev.currencies) ev.currencies = ev.currencies.filter(c => c !== 'RMB');
-          }
+          if (!ev.baseCur) { ev.baseCur = 'RMB'; if (ev.currencies) ev.currencies = ev.currencies.filter(c => c !== 'RMB'); }
           if (!ev.currencies || ev.currencies.length === 0) ev.currencies = ['THB', 'USD'];
           return ev;
         });
         S.currentEventId = d.currentEventId || S.events[0].id;
-      } else {
-        let rates = {};
-        if (d.exchangeRates) rates = d.exchangeRates;
-        else if (typeof d.exchangeRate === 'number') rates = { THB: d.exchangeRate };
-        let oldCurs = d.currencies || ['THB', 'RMB', 'USD'];
-        S.events = [{
-          id: uid(), name: '默认',
-          people: d.people && d.people.length > 0 ? d.people : ['A', 'B', 'C'],
-          baseCur: 'RMB',
-          currencies: oldCurs.filter(c => c !== 'RMB'),
-          exchangeRates: rates,
-          expenses: migrateExpenses(d.expenses || [])
-        }];
-        S.currentEventId = S.events[0].id;
       }
     } catch(e) {}
   }
@@ -686,6 +853,10 @@ function init() {
     S.currentEventId = S.events[0].id;
   }
   if (!S.events.find(e => e.id === S.currentEventId)) S.currentEventId = S.events[0].id;
+  render();
+}
+
+function init() {
   document.getElementById('fDate').value = todayStr();
   document.getElementById('fTime').value = nowTimeStr();
   document.getElementById('fAmt').addEventListener('input', onAmtChange);
@@ -694,7 +865,18 @@ function init() {
       document.querySelectorAll('.cur-search-drop.show').forEach(d => d.classList.remove('show'));
     }
   });
-  render();
+  // 判断是否在小程序里
+  if (typeof wx !== 'undefined' && wx.miniProgram) {
+    wx.miniProgram.getEnv(res => {
+      if (res.miniprogram) {
+        loadFromCloud();
+      } else {
+        initLocal();
+      }
+    });
+  } else {
+    initLocal();
+  }
 }
 
 function migrateExpenses(arr) {
@@ -713,8 +895,8 @@ function migrateExpenses(arr) {
   });
 }
 
-function persist() {
-  localStorage.setItem('aa_data', JSON.stringify({ events: S.events, currentEventId: S.currentEventId }));
+function persistLocal() {
+  try { sessionStorage.setItem('aa_data', JSON.stringify({ events: S.events, currentEventId: S.currentEventId })); } catch(e) {}
 }
 
 function todayStr() { let d=new Date(),m=d.getMonth()+1,day=d.getDate(); return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(day<10?'0':'')+day; }
@@ -778,14 +960,14 @@ function renderSidebar() {
 function switchEvent(id) {
   S.currentEventId = id;
   S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set(); S._settleNone = false;
-  persist(); closeSidebar();
+  persistLocal(); closeSidebar();
   document.querySelectorAll('.tab').forEach(el => el.classList.toggle('on', el.dataset.tab === 'exp'));
   document.getElementById('fab').style.display = '';
   render();
 }
 
 function promptNewEvent() {
-  promptDlg('新建行程', '如：新加坡毕业旅行；奥森野餐', function(name) {
+  promptDlg('新建行程', '如：毕业旅行；公园野餐···', function(name) {
     if (!name) { showDlgErr('请输入行程名称'); return false; }
     if (S.events.some(e => e.name === name)) { showDlgErr('该行程名称已存在，请重新命名'); return false; }
     let ev = {
@@ -797,7 +979,7 @@ function promptNewEvent() {
     S.events.push(ev);
     S.currentEventId = ev.id;
     S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set();
-    persist(); closeSidebar();
+    persistLocal(); closeSidebar();
     document.querySelectorAll('.tab').forEach(el => el.classList.toggle('on', el.dataset.tab === 'exp'));
     document.getElementById('fab').style.display = '';
     render();
@@ -806,7 +988,7 @@ function promptNewEvent() {
 }
 
 function createNewTrip() {
-  promptDlg('新建行程', '如：新加坡毕业旅行；奥森野餐', function(name) {
+  promptDlg('新建行程', '如：毕业旅行；公园野餐···', function(name) {
     if (!name) { showDlgErr('请输入行程名称'); return false; }
     let ev = S.events[0];
     if (ev && (!ev.name || ev.name === '')) {
@@ -821,7 +1003,7 @@ function createNewTrip() {
     }
     S.currentEventId = ev.id;
     S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set();
-    persist();
+    persistLocal();
     document.getElementById('fab').style.display = '';
     render();
     showManage();
@@ -839,7 +1021,7 @@ function deleteEvent(id) {
     }];
     }
     if (S.currentEventId === id) { S.currentEventId = S.events[0].id; S.tab = 'exp'; S.filterDates = new Set(); S.settleFilterDates = new Set(); S.settleSelected = new Set(); }
-    persist(); renderSidebar(); render();
+    persistLocal(); renderSidebar(); render();
     toast('已删除');
   });
 }
@@ -920,7 +1102,7 @@ function renderStatCard(ev, list) {
   let defaults = RATE_DEFAULTS;
   let usedCurs = [...new Set(list.map(e => e.currency))].filter(c => c !== baseCur);
   usedCurs.forEach(c => {
-    if (!ev.exchangeRates[c] && defaults[c]) { ev.exchangeRates[c] = defaults[c]; persist(); }
+    if (!ev.exchangeRates[c] && defaults[c]) { ev.exchangeRates[c] = defaults[c]; persistLocal(); }
   });
 
   let allCurs = [...new Set(list.map(e => e.currency))];
@@ -1401,7 +1583,7 @@ function renderSettlement(el) {
     h += '<div class="s-card" style="margin-top:8px"><h3>汇率设置</h3>';
     pendingCurrencies.forEach(c => {
       let rate = ev.exchangeRates[c] || defaults[c] || null;
-      if (!ev.exchangeRates[c] && defaults[c]) { ev.exchangeRates[c] = defaults[c]; persist(); }
+      if (!ev.exchangeRates[c] && defaults[c]) { ev.exchangeRates[c] = defaults[c]; persistLocal(); }
       h += '<div class="rate-row">';
       h += '<span>1 ' + c + ' =</span>';
       h += '<input class="rate-in" type="number" inputmode="decimal" step="0.01" placeholder="?" value="' + (rate || '') + '" oninput="onRateInput(\'' + c + '\',this.value)">';
@@ -1508,7 +1690,7 @@ function onRateInput(c, v) {
   let baseCur = ev.baseCur || 'RMB';
   if (val > 0) ev.exchangeRates[c] = val;
   else delete ev.exchangeRates[c];
-  persist();
+  persistLocal();
   let hintEl = document.getElementById('rateHint_' + c);
   if (hintEl) hintEl.innerHTML = val > 0 ? '1 ' + baseCur + ' ≈ ' + (1/val).toFixed(4) + ' ' + c : '';
 }
@@ -1646,7 +1828,7 @@ function doSettleConfirmed(toSettle, bal, transfers, billTransfers) {
   if (S.settleFilterDates.size > 0 && !remainPending.some(e => S.settleFilterDates.has(e.date))) S.settleFilterDates.clear();
   let viewFiltered = S.settleFilterDates.size > 0 ? remainPending.filter(e => S.settleFilterDates.has(e.date)) : remainPending;
   viewFiltered.forEach(e => S.settleSelected.add(e.id));
-  persist(); render();
+  persistLocal(); render();
 
   // Show result modal
   document.getElementById('settleOv').classList.add('show');
@@ -1665,7 +1847,7 @@ function unsettleBatch(batchTime) {
   let count = items.length;
   confirmDanger('撤销结算', '撤销 ' + count + ' 笔结算？', '确定撤销', function() {
     items.forEach(e => { e.settled = false; delete e.settledAt; });
-    persist(); render();
+    persistLocal(); render();
     toast('已撤销 ' + count + ' 笔');
   });
 }
@@ -2107,14 +2289,18 @@ function saveExpense() {
   }
   if (S.editingId) {
     let e = ev.expenses.find(x => x.id === S.editingId);
-    if (e) { e.name = name; e.amount = amt; e.type = type; e.date = date; e.time = time; e.currency = currency; e.payer = S.fPayer; e.participants = [...S.fParts]; e.custom = Object.keys(custom).length > 0 ? custom : null; e.multiPayments = Object.keys(multiPayments).length > 0 ? multiPayments : null; e.updatedBy = CURRENT_USER.id; e.updatedAt = new Date().toISOString(); }
-    persist(); render(); closeAll(); toast('已更新');
+    if (e) { e.name = name; e.amount = amt; e.type = type; e.date = date; e.time = time; e.currency = currency; e.payer = S.fPayer; e.participants = [...S.fParts]; e.custom = Object.keys(custom).length > 0 ? custom : null; e.multiPayments = Object.keys(multiPayments).length > 0 ? multiPayments : null; e.updatedBy = CURRENT_USER.id; e.updatedAt = new Date().toISOString();
+      saveBillCloud(e, true).catch(console.warn);
+    }
+    persistLocal(); render(); closeAll(); toast('已更新');
   } else {
-    ev.expenses.push({ id: uid(), name, amount: amt, type: type, date, time, currency, payer: S.fPayer, participants: [...S.fParts], custom: Object.keys(custom).length > 0 ? custom : null, multiPayments: Object.keys(multiPayments).length > 0 ? multiPayments : null, settled: false,
+    let newBill = { id: uid(), name, amount: amt, type: type, date, time, currency, payer: S.fPayer, participants: [...S.fParts], custom: Object.keys(custom).length > 0 ? custom : null, multiPayments: Object.keys(multiPayments).length > 0 ? multiPayments : null, settled: false,
       createdBy: CURRENT_USER.id, createdAt: new Date().toISOString(),
       updatedBy: CURRENT_USER.id, updatedAt: new Date().toISOString()
-    });
-    persist(); render(); closeAll(); toast('已保存');
+    };
+    ev.expenses.push(newBill);
+    saveBillCloud(newBill, false).catch(console.warn);
+    persistLocal(); render(); closeAll(); toast('已保存');
   }
 }
 
@@ -2123,8 +2309,10 @@ function delExpense(id) {
   let e = ev.expenses.find(x => x.id === id);
   if (e && e.settled) return;
   confirmDanger('删除账单', '确定删除「' + e.name + '」？', '确定删除', function() {
+    let cloudId = e._cloudId || e.id;
     ev.expenses = ev.expenses.filter(x => x.id !== id);
-    persist(); render();
+    deleteBillCloud(cloudId).catch(console.warn);
+    persistLocal(); render();
   });
 }
 
@@ -2320,7 +2508,7 @@ function memberAction(p) {
         if (e.custom && e.custom[p]) { e.custom[newName] = e.custom[p]; delete e.custom[p]; }
         if (e.multiPayments && e.multiPayments[p]) { e.multiPayments[newName] = e.multiPayments[p]; delete e.multiPayments[p]; }
       });
-      persist(); renderManageChips(); render();
+      persistLocal(); renderManageChips(); render();
       toast('已改名为 ' + newName);
     }
   });
@@ -2346,7 +2534,7 @@ function renamePerson(oldName) {
         if (e.custom && e.custom[oldName]) { e.custom[newName] = e.custom[oldName]; delete e.custom[oldName]; }
         if (e.multiPayments && e.multiPayments[oldName]) { e.multiPayments[newName] = e.multiPayments[oldName]; delete e.multiPayments[oldName]; }
       });
-      persist(); renderManageChips(); render();
+      persistLocal(); renderManageChips(); render();
       toast('已改名为 ' + newName);
     }
   });
@@ -2362,7 +2550,7 @@ function addPerson() {
     if (!ev.people.includes(n)) { ev.people.push(n); added++; }
   });
   document.getElementById('newName').value = '';
-  persist(); renderManageChips();
+  persistLocal(); renderManageChips();
   if (added > 0) toast('已添加 ' + added + ' 人');
   else toast('名字已存在');
 }
@@ -2372,7 +2560,7 @@ function removePerson(p) {
   let used = ev.expenses.some(e => e.payer === p || e.participants.includes(p));
   if (used) { toast('该成员有账单，无法删除'); return; }
   ev.people = ev.people.filter(x => x !== p);
-  persist(); renderManageChips();
+  persistLocal(); renderManageChips();
 }
 
 const CUR_ZH = {
@@ -2410,7 +2598,7 @@ function saveSettings() {
   let list = [...curListSelected].filter(c => c !== baseCur);
   ev.baseCur = baseCur;
   ev.currencies = list;
-  persist(); closeAll(); render();
+  persistLocal(); closeAll(); render();
   toast('设置已保存');
 }
 
@@ -2439,12 +2627,12 @@ function exportData() {
 function clearAll() {
   confirmDanger('清空账单', '确定清空当前事件所有账单？此操作不可恢复。', '确定清空', function() {
     cur().expenses = [];
-    persist(); render(); closeAll();
+    persistLocal(); render(); closeAll();
     toast('已清空');
   });
 }
 
-function openModal(id) { document.getElementById('ov').classList.add('show'); document.getElementById(id).classList.add('show'); }
+function openModal(id) { let m = document.getElementById(id); m.scrollTop = 0; document.getElementById('ov').classList.add('show'); m.classList.add('show'); }
 function closeAll() { document.getElementById('ov').classList.remove('show'); document.getElementById('settleOv').classList.remove('show'); document.querySelectorAll('.modal,.settle-modal').forEach(m => m.classList.remove('show')); }
 function esc(s) { let d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
@@ -2547,7 +2735,7 @@ function dissolveTrip() {
   confirmDanger('解散行程', '解散「' + ev.name + '」？行程将变为只读存档，成员无法继续记账。此操作不可恢复。', '确定解散', function() {
     ev.dissolved = true;
     ev.dissolvedAt = new Date().toISOString();
-    persist(); closeAll(); render();
+    persistLocal(); closeAll(); render();
     toast('行程已解散，数据已存档');
   });
 }
@@ -2557,7 +2745,7 @@ function leaveTrip() {
   if (!ev || isOwner(ev)) return;
   confirmDanger('退出行程', '退出「' + ev.name + '」？你的账单记录保留，但你将无法继续编辑。', '确定退出', function() {
     if (ev.members) ev.members = ev.members.filter(m => m.userId !== CURRENT_USER.id);
-    persist(); closeAll(); render();
+    persistLocal(); closeAll(); render();
     toast('已退出行程');
   });
 }
@@ -2601,6 +2789,18 @@ function renderThemePicker() {
       <span style="font-size:9px;color:var(--text2);white-space:nowrap">${t.name}</span>
     </div>
   `).join('');
+}
+
+function inviteFriend() {
+  let ev = cur();
+  if (!ev || !ev._cloudId) { toast('请先保存行程到云端'); return; }
+  // 通知小程序发起分享，带上行程ID
+  if (typeof wx !== 'undefined' && wx.miniProgram) {
+    wx.miniProgram.postMessage({ data: { type: 'invite', tripId: ev._cloudId, tripName: ev.name } });
+    toast('请点击右上角菜单 → 转发给好友');
+  } else {
+    toast('请在小程序中使用邀请功能');
+  }
 }
 
 init();
